@@ -3,6 +3,7 @@
 ruby '3.1.2'
 source 'http://rubygems.org'
 
+gem 'octokit'
 gem 'puma'
 gem 'sinatra'
 
