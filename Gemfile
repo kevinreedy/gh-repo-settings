@@ -8,6 +8,7 @@ gem 'puma'
 gem 'sinatra'
 
 group :development, :test do
+  gem 'dotenv'
   gem 'pry'
   gem 'rake'
   gem 'rubocop'
