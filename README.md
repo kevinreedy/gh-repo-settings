@@ -13,7 +13,7 @@ GitHub Webhooks can be set up on a single repository or on an entire GitHub Orga
 - Branch Protection Edited
 - Branch Created (only take action if it is the default branch)
 
-When any of these actions are taken on any repository in the Organization, the service will use the GitHub API to ensure the default branch is protected, requiring review before any pull request can be merged.
+When any of these actions are taken on any repository in the Organization, the service will use the GitHub API to ensure the default branch is protected, requiring review before any pull request can be merged. [octokit.rb](https://github.com/octokit/octokit.rb) is used to communicate with the GitHub API.
 
 ## Installing
 This service is a Ruby Application that can be run using Docker or directly on a system.
