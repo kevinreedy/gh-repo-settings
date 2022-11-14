@@ -5,7 +5,7 @@ require 'dotenv/load'
 require './lib/github'
 
 get '/' do
-  "Hello #{ENV['HELLO'] || 'world'}!"
+  markdown File.read('README.md')
 end
 
 post '/callback' do
