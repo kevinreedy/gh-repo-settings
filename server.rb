@@ -12,9 +12,11 @@ post '/callback' do
   logger.info '/callback called'
 
   # Parse payload from Github callback
-  payload = JSON.parse(request.body.read, symbolize_names: true)
+  payload_body = request.body.read
+  payload = JSON.parse(payload_body, symbolize_names: true)
 
-  # TODO: ensure secret is correct
+  # Ensure secret is correct
+  verify_signature!(payload_body) if ENV['GITHUB_CALLBACK_SECRET']
 
   repo = payload[:repository][:full_name]
   default_branch = payload[:repository][:default_branch]
@@ -52,4 +54,12 @@ post '/callback' do
   else
     logger.warn 'Action for callback not found'
   end
+end
+
+# From https://docs.github.com/en/developers/webhooks-and-events/webhooks/securing-your-webhooks
+def verify_signature!(payload_body)
+  signature = 'sha256=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha256'), ENV['GITHUB_CALLBACK_SECRET'],
+                                                  payload_body)
+  return halt 500, "Signatures didn't match!" unless Rack::Utils.secure_compare(signature,
+                                                                                request.env['HTTP_X_HUB_SIGNATURE_256'])
 end
